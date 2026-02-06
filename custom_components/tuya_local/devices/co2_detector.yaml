@@ -1,5 +1,19 @@
-name: CO2 Detector
+name: CO2 Detector (3-in-1)
+#      "7": 1500,
+    
 entities:
+  - entity: binary_sensor
+    name: CO2 levels
+    class: safety
+    dps:
+      - id: 1
+        type: string
+        name: sensor
+        mapping:
+          - dps_val: "alarm"
+            value: true
+          - dps_val: "normal"
+            value: false
   - entity: sensor
     class: carbon_dioxide
     dps:
@@ -7,6 +21,54 @@ entities:
         type: integer
         name: sensor
         unit: ppm
+        class: measurement
+  - entity: number
+    name: Alarm duration
+    category: config
+    dps:
+      - id: 7
+        type: integer
+        name: value
+        optional: true
+        unit: s
+        range:
+          min: 1
+          max: 3600
+       mapping:
+          - step: 1
+  - entity: switch
+    name: Alarm switch
+    category: config
+    dps:
+      - id: 13
+        type: boolean
+        name: switch
+        mapping:
+          - dps_val: true
+            icon: "mdi:bell"
+          - dps_val: false
+            icon: "mdi:bell-off"
+  - entity: sensor
+    name: Power state
+    class: enum
+    category: diagnostic
+    dps:
+      - id: 14
+        type: string
+        name: sensor
+        mapping:
+          - dps_val: normal
+            value: battery
+          - dps_val: charge
+            value: charging
+  - entity: sensor
+    class: battery
+    category: diagnostic
+    dps:
+      - id: 15
+        type: integer
+        name: sensor
+        unit: "%"
         class: measurement
   - entity: sensor
     class: temperature
@@ -28,3 +90,32 @@ entities:
         class: measurement
         mapping:
           - scale: 1
+  - entity: select
+    name: Unit displayed
+    category: config
+    dps:
+      - id: 31
+        type: string
+        name: option
+        mapping:
+          - dps_val: c
+            value: "°C"
+          - dps_val: f
+            value: "°F"
+  - entity: sensor
+    class: pm10
+    dps:
+      - id: 101
+        type: integer
+        name: sensor
+        unit: ugm3
+        class: measurement
+  - entity: sensor
+    class: pm1
+    dps:
+      - id: 102
+        type: integer
+        name: sensor
+        unit: ugm3
+        class: measurement
+
